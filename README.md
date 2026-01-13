@@ -179,10 +179,6 @@ TELEGRAM_CHAT_ID=your_chat_id_here
 - Regularly rotate your API keys
 - Review webhook access logs
 
-## License
-
-MIT License - Feel free to use and modify
-
 ## Support
 
 For issues or questions:
@@ -194,6 +190,6 @@ For issues or questions:
 
 Contributions are welcome! Feel free to submit issues and pull requests.
 
----
+Feel free to use and modify
 
 **Created with ♥ for job seekers and automation enthusiasts**
