@@ -1,0 +1,77 @@
+{
+  "name": "San[jobfind] - AI Job Search Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "jobfind"
+      },
+      "id": "webhook",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "model": "mixtral-8x7b-32768",
+        "messages": "={{ $json.body }}"
+      },
+      "id": "groq_chat_model",
+      "name": "Groq Chat Model",
+      "type": "n8n-nodes-base.groq",
+      "typeVersion": 1,
+      "position": [300, 300],
+      "credentials": {
+        "groqApi": {
+          "id": "GROQ_API_KEY",
+          "name": "Enter your Groq API Key from https://console.groq.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "{{ $json.chatId }}",
+        "text": "={{ $json.response }}"
+      },
+      "id": "telegram_node",
+      "name": "Send a text message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [500, 300],
+      "credentials": {
+        "telegramBotApi": {
+          "id": "TELEGRAM_BOT_TOKEN",
+          "name": "Enter your Telegram Bot Token from https://t.me/botfather"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Groq Chat Model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "description": "An AI-powered job search automation workflow. Send a job query via webhook, AI processes it with Groq, and results are sent via Telegram.",
+  "settings": {},
+  "staticData": null
+}
